@@ -46,7 +46,7 @@ exports.initializeConfigMiddlewares = (app) => {
     initJsonHandlerMiddlware(app);
     initLoggerMiddlware(app);
     //initLogInMiddleware(app);
-    initpublicRepertory(app);
+   //initpublicRepertory(app);
     initcors(app);
 }
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const { initializeConfigMiddlewares, initializeErrorMiddlwares } = require('./middlewares');
-
+const routesTest = require('../controller/test.route');
 
 class WebServer {
     app = undefined;
@@ -27,7 +27,7 @@ class WebServer {
     }
 
     _initializeRoutes() {
-
+        this.app.use('/test', routesTest.initializeRoutesTest());
     }
 }
 
