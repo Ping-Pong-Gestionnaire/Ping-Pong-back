@@ -1,6 +1,7 @@
 const express = require('express');
 const { initializeConfigMiddlewares, initializeErrorMiddlwares } = require('./middlewares');
 const routesTest = require('../controller/test.route');
+const {sequelize} = require("../datamodel/db")
 
 class WebServer {
     app = undefined;
@@ -9,7 +10,7 @@ class WebServer {
 
     constructor() {
         this.app = express();
-        //sequelize.sync({force : true});
+        sequelize.sync();
         require('dotenv').config();
         initializeConfigMiddlewares(this.app);
         this._initializeRoutes();
