@@ -45,4 +45,12 @@ router.get("/getAll",async(req,res) => {
     res.status(200).json(getAll);
 
 });
+router.get("/getUser/:id",async(req,res) => {
+
+    let getOne =  await userRepository.getOne(req.params.id);
+    res.status(200).json(getOne);
+
+});
+
+
 exports.initializeRoutesUser = () => router;

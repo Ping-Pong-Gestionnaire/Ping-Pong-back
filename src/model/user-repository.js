@@ -85,6 +85,23 @@ exports.getAll = async () => {
     }
 
 }
+exports.getOne = async (id) => {
+    try{
+        const user = await sequelize.query(`SELECT id_user, login, mdp, nom, prenom,  email 
+                                            from users 
+                                            where  id_user = ${id} `)
+            .then(([results, metadata]) => {
+                return results[0];
+            });
+        console.log("user = " + user);
+        return user;
+    }
+    catch(error){
+
+    }
+
+
+}
 
 
 
