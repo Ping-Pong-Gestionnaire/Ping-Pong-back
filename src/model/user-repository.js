@@ -72,8 +72,35 @@ exports.suppUser = async (id_user) => {
 
 };
 
-exports.getUsers = async () => {
-    return await User.findAll();
+exports.getAll = async () => {
+    try{
+
+        // Find all users
+        const users = await User.findAll();
+        console.log('All users:', JSON.stringify(users, null, 2));
+        return users;
+    }
+    catch(error){
+        return "Erreur lors de la demande d'information sur les compte"
+    }
+
+}
+exports.getOne = async (id) => {
+    try{
+        const user = await sequelize.query(`SELECT id_user, login, mdp, nom, prenom,  email 
+                                            from users 
+                                            where  id_user = ${id} `)
+            .then(([results, metadata]) => {
+                return results[0];
+            });
+        console.log("user = " + user);
+        return user;
+    }
+    catch(error){
+
+    }
+
+
 }
 
 
