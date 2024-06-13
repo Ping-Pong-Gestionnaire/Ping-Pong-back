@@ -1,6 +1,7 @@
 const Poste = require('../datamodel/poste.model');
 const {sequelize} = require("../datamodel/db")
 const bcrypt = require("bcryptjs");
+const User = require("../datamodel/user.model");
 
 exports.createPoste = async (nom) => {
 
@@ -44,7 +45,7 @@ exports.modifPoste = async (id, nom) =>{
                                             WHERE id_poste = :id;`,
                                     { replacements: { nom, id }})
             .then(([results, metadata]) => {
-                console.log("Modification de poste effectuée.", results);
+               // console.log("Modification de poste effectuée.", results);
             });
 
         return 'ok';
@@ -54,3 +55,14 @@ exports.modifPoste = async (id, nom) =>{
     }
 
 }
+
+exports.suppPoste = async (id_poste) => {
+    try{
+        await Poste.destroy({ where: { id_poste } });
+        return 'ok'
+    }catch(error){
+        console.error('Erreur lors de la suppression de poste :', error);
+        return 'Erreur lors de la suppression de poste.'
+    }
+
+};
