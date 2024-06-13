@@ -56,13 +56,27 @@ exports.modifUsers = async (id, mdp) =>{
         return 'ok';
     } catch (error) {
         console.error('Erreur lors de la modification :', error);
+        return 'Erreur lors de la modification.'
     }
 
 }
 
+exports.suppUser = async (id_user) => {
+    try{
+        await User.destroy({ where: { id_user } });
+        return 'ok'
+    }catch(error){
+        console.error('Erreur lors de la suppression de compte :', error);
+        return 'Erreur lors de la suppression de compte.'
+    }
+
+};
+
 exports.getUsers = async () => {
     return await User.findAll();
 }
+
+
 
 /*
 exports.createUser = async (login, mdp) => {

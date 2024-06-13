@@ -24,9 +24,18 @@ router.post("/modif", body('id'), body('mdp'),async(req,res) => {
     if( modifUser === "ok"){
         res.status(204).end();
     }else{
-        res.status(400).send("Il y a eu une erreur lors de la modification.");
+        res.status(400).send(modifUser);
     }
     
 });
+router.post("/supp", body('id'),async(req,res) => {
 
+    const suppUser =  await userRepository.suppUser(req.body.id);
+    if( suppUser === "ok"){
+        res.status(204).end();
+    }else{
+        res.status(400).send(suppUser);
+    }
+
+});
 exports.initializeRoutesUser = () => router;
