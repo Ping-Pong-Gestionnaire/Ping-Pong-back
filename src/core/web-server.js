@@ -1,12 +1,14 @@
 const express = require('express');
 const { initializeConfigMiddlewares, initializeErrorMiddlwares } = require('./middlewares');
 const routesTest = require('../controller/test.route');
+const routesUser = require('../controller/user.route');
 const {sequelize} = require("../datamodel/db")
 
 class WebServer {
     app = undefined;
     port = 3000;
     server = undefined;
+
 
     constructor() {
         this.app = express();
@@ -29,6 +31,8 @@ class WebServer {
 
     _initializeRoutes() {
         this.app.use('/test', routesTest.initializeRoutesTest());
+        this.app.use('/user', routesUser.initializeRoutesUser());
+
     }
 }
 
