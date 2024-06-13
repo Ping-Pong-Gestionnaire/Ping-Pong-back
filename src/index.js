@@ -2,14 +2,12 @@
 require ("./model/db");
 const user = require("./model/user-repository");
 
-
 //user.createUsers('test2', '2345', 12.6)
 
 user.getUsers();*/
 
 const WebServer = require('./core/web-server');
 const {sequelize} = require("./datamodel/db");
-
 
 async function testConnection() {
     try {

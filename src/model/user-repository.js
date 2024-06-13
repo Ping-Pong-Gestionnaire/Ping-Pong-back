@@ -9,7 +9,7 @@ exports.createUsers = async (login, mdp) => {
     const mdphash = bcrypt.hashSync(mdp , sel);
 
     const user = await this.loginUsers(login);
-
+    console.log(user)
     if( user === undefined ){
         async function createUser(login, mdphash) {
             try {
@@ -24,19 +24,18 @@ exports.createUsers = async (login, mdp) => {
         return 'ok';
     }
     else{
-        return 'logindejause';
+        return 'Login déjà pris.';
     }
 
 }
 
-exports.loginUsers = async (login) => {
+exports.loginUsers = async (nom_uti) => {
 
-    const user = await sequelize.query(`SELECT id_user, login, mdp  
-                                            from users 
-                                            where  login = "${login}" `)
+    const user = await sequelize.query('SELECT id_user, login, mdp from users where login =  :nom_uti', { replacements: { nom_uti }})
         .then(([results, metadata]) => {
             return results[0];
         });
+
     return user;
 }
 

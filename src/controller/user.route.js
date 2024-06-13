@@ -15,7 +15,7 @@ router.post("/crea", body('login'), body('mdp'),async(req,res) => {
         res.status(200).end();
     }
     else{
-        res.status(400).send("Login déjà pris");
+        res.status(400).send("login déjà pris.");
     }
 });
 router.post("/modif", body('id'), body('mdp'),async(req,res) => {
@@ -51,6 +51,30 @@ router.get("/getUser/:id",async(req,res) => {
     res.status(200).json(getOne);
 
 });
+
+router.post("/auth", body('login'), body('mdp'), async(req,res) =>{
+
+    const is_user =  await userRepository.loginUsers(req.body.login) ;
+    console.log("mon user : ", is_user);
+
+    if(is_user != undefined){
+
+        if (bcrypt.compareSync(req.body.mdp, is_user.mdp_utilisateur)) {
+
+            const token = jwt.sign({ id_utilisateur: is_user.id_utilisateur, nom_utilisatur : req.body.login}, process.env.SECRET_KEY);
+            res.status(200).json({ token });
+
+        } else {
+            res.status(400).send("Login ou mot de passe incorrect")
+        }
+    }
+    else{
+        res.status(400).send("Login ou mot de passe incorrect")
+        return false;
+    }
+
+});
+
 
 
 exports.initializeRoutesUser = () => router;
