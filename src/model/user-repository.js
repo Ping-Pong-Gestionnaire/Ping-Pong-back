@@ -20,7 +20,7 @@ exports.createUsers = async (login, mdp) => {
             }
         }
 
-        createUser(login, mdp);
+        createUser(login, mdphash);
         return 'ok';
     }
     else{
@@ -31,13 +31,34 @@ exports.createUsers = async (login, mdp) => {
 
 exports.loginUsers = async (login) => {
 
-    const user = await sequelize.query(`SELECT id_user, login, mdp  from users where  login = '${login}' `)
+    const user = await sequelize.query(`SELECT id_user, login, mdp  
+                                            from users 
+                                            where  login = "${login}" `)
         .then(([results, metadata]) => {
             return results[0];
         });
     return user;
 }
 
+exports.modifUsers = async (id, mdp) =>{
+
+    try{
+        const  sel = bcrypt.genSaltSync(12);
+        const mdphash = bcrypt.hashSync(mdp , sel);
+
+        const user = await sequelize.query(`UPDATE users 
+                                            SET mdp = '${mdphash}'
+                                            WHERE id_user = ${id};`)
+            .then(([results, metadata]) => {
+                console.log("Modification effectuée.", results);
+            });
+
+        return 'ok';
+    } catch (error) {
+        console.error('Erreur lors de la modification :', error);
+    }
+
+}
 
 exports.getUsers = async () => {
     return await User.findAll();
