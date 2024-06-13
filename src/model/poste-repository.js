@@ -35,3 +35,22 @@ exports.isExisting = async (nom) => {
 
     return user;
 }
+
+exports.modifPoste = async (id, nom) =>{
+
+    try{
+        const poste = await sequelize.query(`UPDATE postes 
+                                            SET nom= :nom
+                                            WHERE id_poste = :id;`,
+                                    { replacements: { nom, id }})
+            .then(([results, metadata]) => {
+                console.log("Modification de poste effectuée.", results);
+            });
+
+        return 'ok';
+    } catch (error) {
+        console.error('Erreur lors de la modification de poste:', error);
+        return 'Erreur lors de la modification de poste.'
+    }
+
+}
