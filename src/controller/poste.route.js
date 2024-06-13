@@ -41,5 +41,11 @@ router.get("/getAll",async(req,res) => {
     res.status(200).json(getAll);
 
 });
+router.get("/getOne/:id",async(req,res) => {
+
+    let getOne=  await posteRepository.getOne(req.params.id);
+    res.status(200).json(getOne);
+
+});
 
 exports.initializeRoutesPoste = () => router;

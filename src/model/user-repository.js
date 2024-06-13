@@ -96,7 +96,7 @@ exports.getOne = async (id) => {
         return user;
     }
     catch(error){
-
+        return "Erreur lors de la demande d'information."
     }
 
 
