@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const posteRepository = require('../model/poste-repository');
 const { body, validationResult } = require('express-validator');
+const userRepository = require("../model/user-repository");
 
 router.post("/crea", body('nom'),async(req,res) => {
 
@@ -34,6 +35,11 @@ router.post("/supp",body('id'),async(req,res) => {
         res.status(400).send(suppPoste);
     }
 });
+router.get("/getAll",async(req,res) => {
 
+    let getAll =  await posteRepository.getAll();
+    res.status(200).json(getAll);
+
+});
 
 exports.initializeRoutesPoste = () => router;

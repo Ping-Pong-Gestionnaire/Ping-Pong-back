@@ -66,3 +66,14 @@ exports.suppPoste = async (id_poste) => {
     }
 
 };
+exports.getAll = async () => {
+    try{
+        const postes = await Poste.findAll();
+        console.log('All poste:', JSON.stringify(postes, null, 2));
+        return postes;
+    }
+    catch(error){
+        return "Erreur lors de la demande d'information sur les postes."
+    }
+
+}
