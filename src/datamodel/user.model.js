@@ -10,6 +10,7 @@ const user = sequelize.define(
         nom: { type: DataTypes.STRING, allowNull: true },
         prenom: { type: DataTypes.STRING, allowNull: true },
         email: { type: DataTypes.STRING, allowNull: true },
+        droit: { type: DataTypes.STRING, allowNull: true },
 
     },
     { tableName: 'users' },
