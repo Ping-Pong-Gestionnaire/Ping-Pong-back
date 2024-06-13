@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const posteRepository = require('../model/poste-repository');
+const machineRepository = require('../model/machine-repository');
 const { body, validationResult } = require('express-validator');
 const userRepository = require("../model/user-repository");
 
-router.post("/crea", body('nom'),async(req,res) => {
+router.post("/crea", body('nom'), body('id_poste'),async(req,res) => {
 
-    const createPoste =  await posteRepository.createPoste(req.body.nom);
-    if(createPoste === "ok"){
+    const createMachine =  await machineRepository.createMachine(req.body.nom, req.body.id_poste);
+    if(createMachine === "ok"){
         res.status(200).end();
     }
     else{
-        res.status(400).send(createPoste);
+        res.status(400).send(createMachine);
     }
 });
 router.post("/modif", body('nom'), body('id'),async(req,res) => {
@@ -48,4 +48,4 @@ router.get("/getOne/:id",async(req,res) => {
 
 });
 
-exports.initializeRoutesPoste = () => router;
+exports.initializeRoutesMachine = () => router;

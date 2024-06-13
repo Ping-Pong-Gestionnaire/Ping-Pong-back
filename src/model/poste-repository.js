@@ -69,11 +69,28 @@ exports.suppPoste = async (id_poste) => {
 exports.getAll = async () => {
     try{
         const postes = await Poste.findAll();
-        console.log('All poste:', JSON.stringify(postes, null, 2));
+        //console.log('All poste:', JSON.stringify(postes, null, 2));
         return postes;
     }
     catch(error){
         return "Erreur lors de la demande d'information sur les postes."
     }
+
+}
+exports.getOne = async (id) => {
+    try{
+        const poste = await sequelize.query(`SELECT id_poste, nom
+                                            from postes 
+                                            where  id_poste = :id `, { replacements: { id }})
+            .then(([results, metadata]) => {
+                return results[0];
+            });
+        console.log("poste = " + poste);
+        return poste;
+    }
+    catch(error){
+        return "Erreur lors de la demande d'information."
+    }
+
 
 }

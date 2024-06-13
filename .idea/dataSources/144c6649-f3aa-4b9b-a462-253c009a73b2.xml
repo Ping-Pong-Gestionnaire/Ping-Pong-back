@@ -3,15 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.45">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <Grants>1||-9223372036854775808|c|G
-1||10|c|G
-1||10|C|G
-1||10|T|G
-4||-9223372036854775808|c|G
-4||10|c|G
-4||10|C|G
-4||10|T|G</Grants>
-      <IntrospectionStateNumber>798</IntrospectionStateNumber>
+      <IntrospectionStateNumber>813</IntrospectionStateNumber>
       <ServerVersion>16.3</ServerVersion>
       <StartupTime>1718292816</StartupTime>
       <TimeZones>true ACDT
@@ -1407,7 +1399,7 @@ true posixrules
 13212||10|C|G
 13212||-9223372036854775808|U|G
 13212||10|U|G</Grants>
-      <IntrospectionStateNumber>798</IntrospectionStateNumber>
+      <IntrospectionStateNumber>813</IntrospectionStateNumber>
       <ObjectId>16384</ObjectId>
       <OwnerName>admin</OwnerName>
     </database>
@@ -4831,36 +4823,100 @@ true posixrules
     <schema id="264" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>798</IntrospectionStateNumber>
+      <IntrospectionStateNumber>813</IntrospectionStateNumber>
       <ObjectId>2200</ObjectId>
       <StateNumber>524</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
-    <sequence id="265" parent="264" name="postes_id_poste_seq">
+    <sequence id="265" parent="264" name="machines_id_machine_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>16505</ObjectId>
+      <StateNumber>811</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="266" parent="264" name="postes_id_poste_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16490</ObjectId>
       <StateNumber>797</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="266" parent="264" name="users_id_user_seq">
+    <sequence id="267" parent="264" name="users_id_user_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16481</ObjectId>
       <StateNumber>784</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <table id="267" parent="264" name="postes">
+    <table id="268" parent="264" name="machines">
+      <ObjectId>16506</ObjectId>
+      <StateNumber>811</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="269" parent="264" name="postes">
       <ObjectId>16491</ObjectId>
       <StateNumber>797</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="268" parent="264" name="users">
+    <table id="270" parent="264" name="users">
       <ObjectId>16482</ObjectId>
       <StateNumber>784</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <column id="269" parent="267" name="id_poste">
+    <column id="271" parent="268" name="id_machine">
+      <DasType>integer|0s</DasType>
+      <DefaultExpression>nextval(&apos;machines_id_machine_seq&apos;::regclass)</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>811</StateNumber>
+      <SequenceId>16505</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="272" parent="268" name="nom">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>811</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="273" parent="268" name="id_poste">
+      <DasType>integer|0s</DasType>
+      <Position>3</Position>
+      <StateNumber>811</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="274" parent="268" name="createdAt">
+      <DasType>timestamp with time zone|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>811</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <column id="275" parent="268" name="updatedAt">
+      <DasType>timestamp with time zone|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>811</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <index id="276" parent="268" name="machines_pkey">
+      <ColNames>id_machine</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>16510</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>811</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="277" parent="268" name="machines_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>16511</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>811</StateNumber>
+      <UnderlyingIndexId>16510</UnderlyingIndexId>
+    </key>
+    <column id="278" parent="269" name="id_poste">
       <DasType>integer|0s</DasType>
       <DefaultExpression>nextval(&apos;postes_id_poste_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
@@ -4869,28 +4925,28 @@ true posixrules
       <SequenceId>16490</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="270" parent="267" name="nom">
+    <column id="279" parent="269" name="nom">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>797</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="271" parent="267" name="createdAt">
+    <column id="280" parent="269" name="createdAt">
       <DasType>timestamp with time zone|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>797</StateNumber>
       <TypeId>1184</TypeId>
     </column>
-    <column id="272" parent="267" name="updatedAt">
+    <column id="281" parent="269" name="updatedAt">
       <DasType>timestamp with time zone|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>797</StateNumber>
       <TypeId>1184</TypeId>
     </column>
-    <index id="273" parent="267" name="postes_pkey">
+    <index id="282" parent="269" name="postes_pkey">
       <ColNames>id_poste</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16495</ObjectId>
@@ -4899,14 +4955,14 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="274" parent="267" name="postes_pkey">
+    <key id="283" parent="269" name="postes_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16496</ObjectId>
       <Primary>1</Primary>
       <StateNumber>797</StateNumber>
       <UnderlyingIndexId>16495</UnderlyingIndexId>
     </key>
-    <column id="275" parent="268" name="id_user">
+    <column id="284" parent="270" name="id_user">
       <DasType>integer|0s</DasType>
       <DefaultExpression>nextval(&apos;users_id_user_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
@@ -4915,53 +4971,53 @@ true posixrules
       <SequenceId>16481</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="276" parent="268" name="login">
+    <column id="285" parent="270" name="login">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>784</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="277" parent="268" name="mdp">
+    <column id="286" parent="270" name="mdp">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>784</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="278" parent="268" name="nom">
+    <column id="287" parent="270" name="nom">
       <DasType>varchar(255)|0s</DasType>
       <Position>4</Position>
       <StateNumber>784</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="279" parent="268" name="prenom">
+    <column id="288" parent="270" name="prenom">
       <DasType>varchar(255)|0s</DasType>
       <Position>5</Position>
       <StateNumber>784</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="280" parent="268" name="email">
+    <column id="289" parent="270" name="email">
       <DasType>varchar(255)|0s</DasType>
       <Position>6</Position>
       <StateNumber>784</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="281" parent="268" name="createdAt">
+    <column id="290" parent="270" name="createdAt">
       <DasType>timestamp with time zone|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>784</StateNumber>
       <TypeId>1184</TypeId>
     </column>
-    <column id="282" parent="268" name="updatedAt">
+    <column id="291" parent="270" name="updatedAt">
       <DasType>timestamp with time zone|0s</DasType>
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StateNumber>784</StateNumber>
       <TypeId>1184</TypeId>
     </column>
-    <index id="283" parent="268" name="users_pkey">
+    <index id="292" parent="270" name="users_pkey">
       <ColNames>id_user</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16488</ObjectId>
@@ -4970,7 +5026,7 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="284" parent="268" name="users_pkey">
+    <key id="293" parent="270" name="users_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16489</ObjectId>
       <Primary>1</Primary>

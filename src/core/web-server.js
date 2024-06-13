@@ -3,6 +3,7 @@ const { initializeConfigMiddlewares, initializeErrorMiddlwares } = require('./mi
 const routesTest = require('../controller/test.route');
 const routesUser = require('../controller/user.route');
 const routesPoste = require('../controller/poste.route');
+const routesMachine = require('../controller/machine.route');
 const {sequelize} = require("../datamodel/db")
 
 class WebServer {
@@ -34,6 +35,7 @@ class WebServer {
         this.app.use('/test', routesTest.initializeRoutesTest());
         this.app.use('/user', routesUser.initializeRoutesUser());
         this.app.use('/poste', routesPoste.initializeRoutesPoste());
+        this.app.use('/machine', routesMachine.initializeRoutesMachine());
 
     }
 }
