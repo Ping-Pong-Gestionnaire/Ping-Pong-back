@@ -4,9 +4,9 @@ const { sequelize } = require('./db');
 const machine = sequelize.define(
     'machines',
     {
-        id_machine: { primaryKey: true, type: DataTypes.STRING },
+        id_machine: { primaryKey: true,autoIncrement: true , type: DataTypes.INTEGER },
         nom: { type: DataTypes.STRING, allowNull: false },
-        id_poste: { type: DataTypes.STRING, allowNull: false },
+        id_poste: { type: DataTypes.INTEGER, allowNull: true },
     },
     { tableName: 'machines' },
 );
