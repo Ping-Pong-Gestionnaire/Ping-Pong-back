@@ -39,13 +39,13 @@ exports.isExisting = async (id_user, id_poste) => {
 }
 
 
-exports.suppMachine = async (id) => {
+exports.suppHabilitation = async (id_user, id_poste) => {
     try{
-        await Machine.destroy({ where: { id_machine : id } });
+        await Habilitation.destroy({ where: { "userIdUser" : id_user , "posteIdPoste" : id_poste} });
         return 'ok'
     }catch(error){
-        //console.error('Erreur lors de la suppression de machine :', error);
-        return 'Erreur lors de la suppression de machine.'
+        console.error("Erreur lors de la suppression d'habilitation :", error);
+        return "Erreur lors de la suppression de l'habilitation."
     }
 
 };
