@@ -92,5 +92,19 @@ exports.getOne = async (id) => {
         return "Erreur lors de la demande d'information."
     }
 
+}
 
+exports.getMachines = async (id) => {
+    try{
+        const machines = await sequelize.query(`SELECT id_machine, nom , id_poste
+                                            from machines 
+                                            where  id_poste = :id `, { replacements: { id }})
+            .then(([results, metadata]) => {
+                return results;
+            });
+        console.log("machines = " + machines);
+        return machines;
+    }catch{
+        return "Erreur lors de la demande d'information."
+    }
 }
