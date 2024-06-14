@@ -49,31 +49,22 @@ exports.suppHabilitation = async (id_user, id_poste) => {
     }
 
 };
-exports.getAll = async () => {
-    try{
-        const machine = await Machine.findAll();
-        //console.log('All poste:', JSON.stringify(postes, null, 2));
-        return machine;
-    }
-    catch(error){
-        return "Erreur lors de la demande d'information sur les machines."
-    }
 
-}
-exports.getOne = async (id) => {
+exports.getByUser = async (id_user) => {
     try{
-        const machine = await sequelize.query(`SELECT id_machine, nom, id_poste
-                                            from machines 
-                                            where  id_machine = :id `, { replacements: { id }})
+        const habilitation = await sequelize.query(`SELECT postes.id_poste, postes.nom
+                                            from habilitations, postes
+                                            where  habilitations."userIdUser" = :id_user 
+                                            and habilitations."posteIdPoste" = postes.id_poste`, { replacements: { id_user }})
             .then(([results, metadata]) => {
-                return results[0];
+                return results;
             });
-        console.log("machine = " + machine);
-        return machine;
+        console.log("Habilitation = " + habilitation);
+        return habilitation;
     }
     catch(error){
-        return "Erreur lors de la demande d'information sur les machines."
+        console.log("Habilitation = " + error);
+        return "Erreur lors de la demande d'information sur les habilitations."
     }
-
 
 }

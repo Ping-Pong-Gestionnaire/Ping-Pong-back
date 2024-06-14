@@ -25,16 +25,11 @@ router.post("/supp",body('id_user'), body('id_poste'), async(req,res) => {
         res.status(400).send(suppHabilitation);
     }
 });
-router.get("/getAll",async(req,res) => {
 
-    let getAll =  await machineRepository.getAll();
-    res.status(200).json(getAll);
+router.get("/getByUser/:id_user",async(req,res) => {
 
-});
-router.get("/getOne/:id",async(req,res) => {
-
-    let getOne=  await machineRepository.getOne(req.params.id);
-    res.status(200).json(getOne);
+    let all=  await habilitationRepository.getByUser(req.params.id_user);
+    res.status(200).json(all);
 
 });
 
