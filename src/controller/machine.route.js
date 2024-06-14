@@ -14,14 +14,14 @@ router.post("/crea", body('nom'), body('id_poste'),async(req,res) => {
         res.status(400).send(createMachine);
     }
 });
-router.post("/modif", body('nom'), body('id'),async(req,res) => {
+router.post("/modif", body('id'), body('nom'), body('id_poste'),async(req,res) => {
 
-    const modifPoste =  await posteRepository.modifPoste(req.body.id, req.body.nom);
-    if(modifPoste === "ok"){
+    const modifMachine =  await machineRepository.modifMachine(req.body.id, req.body.nom, req.body.id_poste);
+    if(modifMachine === "ok"){
         res.status(200).end();
     }
     else{
-        res.status(400).send(modifPoste);
+        res.status(400).send(modifMachine);
     }
 });
 router.post("/supp",body('id'),async(req,res) => {
