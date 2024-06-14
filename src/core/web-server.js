@@ -7,6 +7,8 @@ const routesMachine = require('../controller/machine.route');
 const {sequelize} = require("../datamodel/db")
 const Machine = require('../datamodel/machine.model');
 const Poste = require('../datamodel/poste.model');
+const User = require('../datamodel/user.model');
+const Habilitation = require('../datamodel/habilitation.model');
 
 class WebServer {
     app = undefined;
@@ -18,8 +20,10 @@ class WebServer {
         this.app = express();
         sequelize.sync();
 
-        Poste.hasMany(Machine, {foreignKey: "id_poste"})
-       // Machine.belongsTo(Poste, {foreignKey: "id_poste"});
+       // Poste.hasMany(Machine, {foreignKey: "id_poste"})
+        Machine.belongsTo(Poste, {foreignKey: "id_poste"});
+
+        User.belongsToMany(Poste, { through: Habilitation });
 
         require('dotenv').config();
         initializeConfigMiddlewares(this.app);
