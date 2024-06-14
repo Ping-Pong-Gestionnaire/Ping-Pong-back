@@ -11,10 +11,15 @@ exports.createMachine= async (nom, id_poste) => {
     if( machine === undefined ){
         async function createMachine(nom, id_poste) {
             try {
-                const newMachine = await Machine.create({ nom : nom, id_poste : id_poste });
-                console.log('Nouveau poste crée.:', newMachine);
+                if(id_poste === ""){
+                    const newMachine = await Machine.create({ nom : nom });
+                }
+                else{
+                    const newMachine = await Machine.create({ nom : nom, id_poste : id_poste });
+                }
+
             } catch (error) {
-                console.error('Erreur lors de la création de poste :', error);
+                console.error('Erreur lors de la création de machineeee :', error);
             }
         }
 
@@ -35,4 +40,23 @@ exports.isExisting = async (nom) => {
         });
 
     return machine;
+}
+
+exports.modifMachine = async (id, nom, id_poste) =>{
+
+    try{
+        const machine = await sequelize.query(`UPDATE machines 
+                                            SET nom= :nom, id_poste = :id_poste
+                                            WHERE id_machine = :id;`,
+            { replacements: { nom, id_poste , id}})
+            .then(([results, metadata]) => {
+                // console.log("Modification de poste effectuée.", results);
+            });
+
+        return 'ok';
+    } catch (error) {
+        console.error('Erreur lors de la modification de machine:', error);
+        return 'Erreur lors de la modification de machine.'
+    }
+
 }
