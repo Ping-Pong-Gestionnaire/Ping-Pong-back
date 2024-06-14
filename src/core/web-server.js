@@ -4,11 +4,13 @@ const routesTest = require('../controller/test.route');
 const routesUser = require('../controller/user.route');
 const routesPoste = require('../controller/poste.route');
 const routesMachine = require('../controller/machine.route');
+const routesHabilitation = require('../controller/habilitation.route');
 const {sequelize} = require("../datamodel/db")
 const Machine = require('../datamodel/machine.model');
 const Poste = require('../datamodel/poste.model');
 const User = require('../datamodel/user.model');
 const Habilitation = require('../datamodel/habilitation.model');
+
 
 class WebServer {
     app = undefined;
@@ -46,6 +48,7 @@ class WebServer {
         this.app.use('/user', routesUser.initializeRoutesUser());
         this.app.use('/poste', routesPoste.initializeRoutesPoste());
         this.app.use('/machine', routesMachine.initializeRoutesMachine());
+        this.app.use('/habilitation', routesHabilitation.initializeRoutesHabilitation());
 
     }
 }
