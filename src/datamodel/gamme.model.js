@@ -8,6 +8,7 @@ const gamme = sequelize.define(
         libelle: { type: DataTypes.STRING, allowNull: false },
         prix: { type: DataTypes.DECIMAL, allowNull: false },
         type: { type: DataTypes.STRING, allowNull: false },
+        qte: { type: DataTypes.DECIMAL, allowNull: false },
         id_user: { foreignKey:true, type: DataTypes.INTEGER, allowNull: false },
     },
     { tableName: 'gammes' },

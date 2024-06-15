@@ -7,23 +7,23 @@ const Poste = require("../datamodel/poste.model");
 // VEN : vendable
 // INT : intermédiare
 
-exports.createGamme= async ( libelle, prix, type, id_user) => {
+exports.createGamme= async ( libelle, prix, type, qte, id_user) => {
 
     const gamme = await this.isExisting(libelle);
     console.log(gamme)
 
     if( gamme === undefined ){
-        async function createMachine(libelle, prix, type, id_user) {
+        async function createMachine(libelle, prix, type, qte, id_user) {
             try {
 
-                const newMachine = await Gamme.create({ libelle : libelle, prix: prix, type: type, id_user : id_user });
+                const newMachine = await Gamme.create({ libelle : libelle, prix: prix, type: type, qte: qte,  id_user : id_user });
 
             } catch (error) {
                 console.error('Erreur lors de la création de gamme :', error);
             }
         }
 
-        createMachine(libelle, prix, type, id_user);
+        createMachine(libelle, prix, type, qte,  id_user);
         return 'ok';
     }
     else{
@@ -42,13 +42,13 @@ exports.isExisting = async (libelle) => {
     return gamme;
 }
 
-exports.modifGamme = async (id, libelle, prix, type, id_user) =>{
+exports.modifGamme = async (id, libelle, prix, type,qte,  id_user) =>{
 
     try{
         const machine = await sequelize.query(`UPDATE gammes 
-                                            SET libelle= :libelle, prix = :prix, "type" = :type, id_user = :id_user
+                                            SET libelle= :libelle, prix = :prix, "type" = :type, "qte" = :qte , id_user = :id_user
                                             WHERE id_gamme = :id;`,
-            { replacements: { libelle, prix , type, id_user, id}})
+            { replacements: { libelle, prix , type,qte,  id_user, id}})
             .then(([results, metadata]) => {
                  //console.log("Modification de gamme effectuée.", results);
             });
@@ -84,7 +84,7 @@ exports.getAll = async () => {
 }
 exports.getOne = async (id) => {
     try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, users.id_user, users.login
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
                                             from gammes, users
                                             where  id_gamme = :id 
                                             and gammes."id_user" = users."id_user"`, { replacements: { id }})
@@ -104,7 +104,7 @@ exports.getOne = async (id) => {
 
 exports.getByType = async (type) => {
     try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, users.id_user, users.login
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
                                             from gammes, users
                                             where  type = :type
                                             and gammes."id_user" = users."id_user"`, { replacements: { type }})
@@ -124,7 +124,7 @@ exports.getByType = async (type) => {
 
 exports.getByUser = async (id_user) => {
     try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, users.id_user, users.login
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
                                             from gammes, users
                                             where  gammes.id_user = :id_user
                                             and gammes."id_user" = users."id_user"`, { replacements: { id_user }})
@@ -145,7 +145,7 @@ exports.getByUser = async (id_user) => {
 exports.getByName = async (nom) => {
     nom = '%' + nom + '%';
     try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, users.id_user, users.login
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
                                             from gammes, users
                                             where  libelle like  :nom
                                             and gammes."id_user" = users."id_user"`, { replacements: { nom }})

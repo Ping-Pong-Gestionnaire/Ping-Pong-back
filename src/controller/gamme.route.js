@@ -3,9 +3,9 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const gammeRepository = require("../model/gamme-repository");
 
-router.post("/crea", body('nom'),body('prix'),body('type'), body('id_user'),async(req,res) => {
+router.post("/crea", body('nom'),body('prix'),body('type'), body('qte'), body('id_user'),async(req,res) => {
 
-    const createGamme =  await gammeRepository.createGamme(req.body.nom, req.body.prix, req.body.type, req.body.id_user);
+    const createGamme =  await gammeRepository.createGamme(req.body.nom, req.body.prix, req.body.type,req.body.qte,  req.body.id_user);
     if(createGamme === "ok"){
         res.status(200).end();
     }
@@ -13,9 +13,9 @@ router.post("/crea", body('nom'),body('prix'),body('type'), body('id_user'),asyn
         res.status(400).send(createGamme);
     }
 });
-router.post("/modif", body('id'),body('nom'),body('prix'),body('type'), body('id_user'),async(req,res) => {
+router.post("/modif", body('id'),body('nom'),body('prix'),body('type'), body('qte'),  body('id_user'),async(req,res) => {
 
-    const modifGamme =  await gammeRepository.modifGamme(req.body.id, req.body.nom, req.body.prix, req.body.type,  req.body.id_user);
+    const modifGamme =  await gammeRepository.modifGamme(req.body.id, req.body.nom, req.body.prix, req.body.type, req.body.qte,  req.body.id_user);
     if(modifGamme === "ok"){
         res.status(200).end();
     }
