@@ -25,12 +25,12 @@ router.post("/modif", body('id'),body('nom'),body('prix'),body('type'), body('id
 });
 router.post("/supp",body('id'),async(req,res) => {
 
-    const suppMachine =  await machineRepository.suppMachine(req.body.id);
-    if(suppMachine === "ok"){
+    const suppGamme =  await gammeRepository.suppGamme(req.body.id);
+    if(suppGamme === "ok"){
         res.status(200).end();
     }
     else{
-        res.status(400).send(suppMachine);
+        res.status(400).send(suppGamme);
     }
 });
 router.get("/getAll",async(req,res) => {
