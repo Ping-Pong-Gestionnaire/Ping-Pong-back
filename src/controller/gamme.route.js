@@ -13,14 +13,14 @@ router.post("/crea", body('nom'),body('prix'),body('type'), body('id_user'),asyn
         res.status(400).send(createGamme);
     }
 });
-router.post("/modif", body('id'), body('nom'), body('id_poste'),async(req,res) => {
+router.post("/modif", body('id'),body('nom'),body('prix'),body('type'), body('id_user'),async(req,res) => {
 
-    const modifMachine =  await machineRepository.modifMachine(req.body.id, req.body.nom, req.body.id_poste);
-    if(modifMachine === "ok"){
+    const modifGamme =  await gammeRepository.modifGamme(req.body.id, req.body.nom, req.body.prix, req.body.type,  req.body.id_user);
+    if(modifGamme === "ok"){
         res.status(200).end();
     }
     else{
-        res.status(400).send(modifMachine);
+        res.status(400).send(modifGamme);
     }
 });
 router.post("/supp",body('id'),async(req,res) => {
