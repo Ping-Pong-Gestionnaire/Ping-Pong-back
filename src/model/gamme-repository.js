@@ -73,28 +73,91 @@ exports.suppGamme = async (id) => {
 };
 exports.getAll = async () => {
     try{
-        const machine = await Machine.findAll();
+        const gamme = await Gamme.findAll();
         //console.log('All poste:', JSON.stringify(postes, null, 2));
-        return machine;
+        return gamme;
     }
     catch(error){
-        return "Erreur lors de la demande d'information sur les machines."
+        return "Erreur lors de la demande d'information sur les gammes."
     }
 
 }
 exports.getOne = async (id) => {
     try{
-        const machine = await sequelize.query(`SELECT id_machine, nom, id_poste
-                                            from machines 
-                                            where  id_machine = :id `, { replacements: { id }})
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, users.id_user, users.login
+                                            from gammes, users
+                                            where  id_gamme = :id 
+                                            and gammes."id_user" = users."id_user"`, { replacements: { id }})
             .then(([results, metadata]) => {
                 return results[0];
             });
-        console.log("machine = " + machine);
-        return machine;
+        console.log("gamme = " + gamme);
+        return gamme;
     }
     catch(error){
-        return "Erreur lors de la demande d'information sur les machines."
+        console.log("Erreur sur la demande d'info de gamme" + error)
+        return "Erreur lors de la demande d'information sur la gamme."
+    }
+
+
+}
+
+exports.getByType = async (type) => {
+    try{
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, users.id_user, users.login
+                                            from gammes, users
+                                            where  type = :type
+                                            and gammes."id_user" = users."id_user"`, { replacements: { type }})
+            .then(([results, metadata]) => {
+                return results;
+            });
+        console.log("gamme = " + gamme);
+        return gamme;
+    }
+    catch(error){
+        console.log("Erreur sur la demande d'info de gamme" + error)
+        return "Erreur lors de la demande d'information sur la gamme."
+    }
+
+
+}
+
+exports.getByUser = async (id_user) => {
+    try{
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, users.id_user, users.login
+                                            from gammes, users
+                                            where  gammes.id_user = :id_user
+                                            and gammes."id_user" = users."id_user"`, { replacements: { id_user }})
+            .then(([results, metadata]) => {
+                return results;
+            });
+        console.log("gamme = " + gamme);
+        return gamme;
+    }
+    catch(error){
+        console.log("Erreur sur la demande d'info de gamme" + error)
+        return "Erreur lors de la demande d'information sur la gamme."
+    }
+
+
+}
+
+exports.getByName = async (nom) => {
+    nom = '%' + nom + '%';
+    try{
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, users.id_user, users.login
+                                            from gammes, users
+                                            where  libelle like  :nom
+                                            and gammes."id_user" = users."id_user"`, { replacements: { nom }})
+            .then(([results, metadata]) => {
+                return results;
+            });
+        console.log("gamme = " + gamme);
+        return gamme;
+    }
+    catch(error){
+        console.log("Erreur sur la demande d'info de gamme" + error)
+        return "Erreur lors de la demande d'information sur la gamme."
     }
 
 

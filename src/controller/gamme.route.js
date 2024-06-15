@@ -35,14 +35,32 @@ router.post("/supp",body('id'),async(req,res) => {
 });
 router.get("/getAll",async(req,res) => {
 
-    let getAll =  await machineRepository.getAll();
+    let getAll =  await gammeRepository.getAll();
     res.status(200).json(getAll);
 
 });
 router.get("/getOne/:id",async(req,res) => {
 
-    let getOne=  await machineRepository.getOne(req.params.id);
+    let getOne=  await gammeRepository.getOne(req.params.id);
     res.status(200).json(getOne);
+
+});
+router.get("/getByType/:type",async(req,res) => {
+
+    let getALL=  await gammeRepository.getByType(req.params.type);
+    res.status(200).json(getALL);
+
+});
+router.get("/getByUser/:id_user",async(req,res) => {
+
+    let getALL=  await gammeRepository.getByUser(req.params.id_user);
+    res.status(200).json(getALL);
+
+});
+router.get("/getByName/:nom",async(req,res) => {
+
+    let getALL=  await gammeRepository.getByName(req.params.nom);
+    res.status(200).json(getALL);
 
 });
 
