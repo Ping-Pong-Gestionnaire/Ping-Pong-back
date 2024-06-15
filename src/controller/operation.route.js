@@ -25,12 +25,12 @@ router.post("/modif", body('id'),body('nom'),body('tempsRea'), body('description
 });
 router.post("/supp",body('id'),async(req,res) => {
 
-    const suppGamme =  await gammeRepository.suppGamme(req.body.id);
-    if(suppGamme === "ok"){
+    const suppOperation =  await operationRepository.suppOperation(req.body.id);
+    if(suppOperation === "ok"){
         res.status(200).end();
     }
     else{
-        res.status(400).send(suppGamme);
+        res.status(400).send(suppOperation);
     }
 });
 router.get("/getAll",async(req,res) => {

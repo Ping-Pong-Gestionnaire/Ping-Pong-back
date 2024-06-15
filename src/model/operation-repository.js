@@ -55,13 +55,13 @@ exports.modifOperation = async (id, libelle, tempsRea, description , id_machine,
 
 }
 
-exports.suppGamme = async (id) => {
+exports.suppOperation = async (id) => {
     try{
-        await Gamme.destroy({ where: { id_gamme : id } });
+        await Operation.destroy({ where: { id_operation : id } });
         return 'ok'
     }catch(error){
         //console.error('Erreur lors de la suppression de machine :', error);
-        return 'Erreur lors de la suppression de gamme.'
+        return "Erreur lors de la suppression de l'opération."
     }
 
 };
