@@ -2,28 +2,28 @@ const Gamme = require('../datamodel/gamme.model');
 const {sequelize} = require("../datamodel/db")
 const Poste = require("../datamodel/poste.model");
 
+// les types :
+// PRE : matiere premiere
+// VEN : vendable
+// INT : intermédiare
 
-exports.createGamme= async (id_gamme, libelle, prix, type, id_user) => {
+exports.createGamme= async ( libelle, prix, type, id_user) => {
 
-    const machine = await this.isExisting(nom);
-    console.log(machine)
+    const gamme = await this.isExisting(libelle);
+    console.log(gamme)
 
-    if( machine === undefined ){
-        async function createMachine(nom, id_poste) {
+    if( gamme === undefined ){
+        async function createMachine(libelle, prix, type, id_user) {
             try {
-                if(id_poste === ""){
-                    const newMachine = await Machine.create({ nom : nom });
-                }
-                else{
-                    const newMachine = await Machine.create({ nom : nom, id_poste : id_poste });
-                }
+
+                const newMachine = await Gamme.create({ libelle : libelle, prix: prix, type: type, id_user : id_user });
 
             } catch (error) {
                 console.error('Erreur lors de la création de machineeee :', error);
             }
         }
 
-        createMachine(nom, id_poste);
+        createMachine(libelle, prix, type, id_user);
         return 'ok';
     }
     else{
@@ -32,21 +32,21 @@ exports.createGamme= async (id_gamme, libelle, prix, type, id_user) => {
 
 }
 
-exports.isExisting = async (nom) => {
+exports.isExisting = async (libelle) => {
 
-    const machine = await sequelize.query('SELECT nom from machines where nom =  :nom', { replacements: { nom }})
+    const gamme = await sequelize.query('SELECT libelle from gammes where libelle =  :libelle', { replacements: { libelle }})
         .then(([results, metadata]) => {
             return results[0];
         });
 
-    return machine;
+    return gamme;
 }
 
-exports.modifMachine = async (id, nom, id_poste) =>{
+exports.modifMachine = async (id, libelle, prix, type, id_user) =>{
 
     try{
-        const machine = await sequelize.query(`UPDATE machines 
-                                            SET nom= :nom, id_poste = :id_poste
+        const machine = await sequelize.query(`UPDATE gammes 
+                                            SET libelle= :libelle, prix = :prix, type = :type, id_user = :id_poste
                                             WHERE id_machine = :id;`,
             { replacements: { nom, id_poste , id}})
             .then(([results, metadata]) => {

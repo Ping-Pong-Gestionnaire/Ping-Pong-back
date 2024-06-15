@@ -5,6 +5,7 @@ const routesUser = require('../controller/user.route');
 const routesPoste = require('../controller/poste.route');
 const routesMachine = require('../controller/machine.route');
 const routesHabilitation = require('../controller/habilitation.route');
+const routesGamme = require('../controller/gamme.route');
 const {sequelize} = require("../datamodel/db")
 const Machine = require('../datamodel/machine.model');
 const Poste = require('../datamodel/poste.model');
@@ -50,6 +51,7 @@ class WebServer {
         this.app.use('/poste', routesPoste.initializeRoutesPoste());
         this.app.use('/machine', routesMachine.initializeRoutesMachine());
         this.app.use('/habilitation', routesHabilitation.initializeRoutesHabilitation());
+        this.app.use('/gamme', routesGamme.initializeRoutesGamme());
 
     }
 }
