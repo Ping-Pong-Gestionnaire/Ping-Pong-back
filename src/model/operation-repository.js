@@ -36,21 +36,21 @@ exports.isExisting = async (libelle) => {
     return gamme;
 }
 
-exports.modifGamme = async (id, libelle, prix, type,qte,  id_user) =>{
+exports.modifOperation = async (id, libelle, tempsRea, description , id_machine,  id_poste) =>{
 
     try{
-        const machine = await sequelize.query(`UPDATE gammes 
-                                            SET libelle= :libelle, prix = :prix, "type" = :type, "qte" = :qte , id_user = :id_user
-                                            WHERE id_gamme = :id;`,
-            { replacements: { libelle, prix , type,qte,  id_user, id}})
+        const operation = await sequelize.query(`UPDATE operations 
+                                            SET libelle= :libelle, "tempsRea" = :tempsRea, description = :description, "id_machine" = :id_machine , id_poste = :id_poste
+                                            WHERE id_operation = :id;`,
+            { replacements: { libelle, tempsRea ,description,  id_machine, id_poste, id}})
             .then(([results, metadata]) => {
                 //console.log("Modification de gamme effectuée.", results);
             });
 
         return 'ok';
     } catch (error) {
-        //console.error('Erreur lors de la modification de machine:', error);
-        return 'Erreur lors de la modification de gamme.'
+        console.error("Erreur lors de la modification d'opération:", error);
+        return 'Erreur lors de la modification d"opération.'
     }
 
 }
