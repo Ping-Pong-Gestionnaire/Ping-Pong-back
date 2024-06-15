@@ -6,12 +6,14 @@ const routesPoste = require('../controller/poste.route');
 const routesMachine = require('../controller/machine.route');
 const routesHabilitation = require('../controller/habilitation.route');
 const routesGamme = require('../controller/gamme.route');
+const routesOperation = require('../controller/operation.route');
 const {sequelize} = require("../datamodel/db")
 const Machine = require('../datamodel/machine.model');
 const Poste = require('../datamodel/poste.model');
 const User = require('../datamodel/user.model');
 const Habilitation = require('../datamodel/habilitation.model');
 const Gamme = require('../datamodel/gamme.model');
+const Operation = require('../datamodel/operation.model');
 
 
 class WebServer {
@@ -27,6 +29,8 @@ class WebServer {
        // Poste.hasMany(Machine, {foreignKey: "id_poste"})
         Machine.belongsTo(Poste, {foreignKey: "id_poste"});
         Gamme.belongsTo(User, {foreignKey: "id_user"});
+        Operation.belongsTo(Machine, {foreignKey: "id_machine"});
+        Operation.belongsTo(Poste, {foreignKey: "id_poste"});
         User.belongsToMany(Poste, { through: Habilitation });
 
         require('dotenv').config();
@@ -52,6 +56,7 @@ class WebServer {
         this.app.use('/machine', routesMachine.initializeRoutesMachine());
         this.app.use('/habilitation', routesHabilitation.initializeRoutesHabilitation());
         this.app.use('/gamme', routesGamme.initializeRoutesGamme());
+        this.app.use('/operation', routesOperation.initializeRoutesOperation());
 
     }
 }
