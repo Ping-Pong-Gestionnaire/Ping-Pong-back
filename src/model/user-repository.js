@@ -8,7 +8,7 @@ exports.createUsers = async (login, mdp) => {
     const  sel = bcrypt.genSaltSync(12);
     const mdphash = bcrypt.hashSync(mdp , sel);
 
-    const user = await this.loginUsers(login);
+    const user = await this.isUser(login);
     console.log(user)
     if( user === undefined ){
         async function createUser(login, mdphash) {
@@ -29,7 +29,7 @@ exports.createUsers = async (login, mdp) => {
 
 }
 
-exports.loginUsers = async (nom_uti) => {
+exports.isUser = async (nom_uti) => {
 
     const user = await sequelize.query('SELECT id_user, login, mdp from users where login =  :nom_uti', { replacements: { nom_uti }})
         .then(([results, metadata]) => {
@@ -38,6 +38,7 @@ exports.loginUsers = async (nom_uti) => {
 
     return user;
 }
+
 
 exports.modifUsers = async (id, mdp) =>{
 

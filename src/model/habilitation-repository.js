@@ -1,4 +1,4 @@
-const {sequelize} = require("../datamodel/db")
+const {sequelize} = require("../datamodel/db");
 const bcrypt = require("bcryptjs");
 const Poste = require("../datamodel/poste.model");
 const User = require('../datamodel/user.model');
