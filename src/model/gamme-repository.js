@@ -19,7 +19,7 @@ exports.createGamme= async ( libelle, prix, type, id_user) => {
                 const newMachine = await Gamme.create({ libelle : libelle, prix: prix, type: type, id_user : id_user });
 
             } catch (error) {
-                console.error('Erreur lors de la création de machineeee :', error);
+                console.error('Erreur lors de la création de gamme :', error);
             }
         }
 
@@ -27,7 +27,7 @@ exports.createGamme= async ( libelle, prix, type, id_user) => {
         return 'ok';
     }
     else{
-        return 'Nom de machine déjà pris.';
+        return 'Nom de gamme déjà pris.';
     }
 
 }
@@ -42,21 +42,21 @@ exports.isExisting = async (libelle) => {
     return gamme;
 }
 
-exports.modifMachine = async (id, libelle, prix, type, id_user) =>{
+exports.modifGamme = async (id, libelle, prix, type, id_user) =>{
 
     try{
         const machine = await sequelize.query(`UPDATE gammes 
-                                            SET libelle= :libelle, prix = :prix, type = :type, id_user = :id_poste
-                                            WHERE id_machine = :id;`,
-            { replacements: { nom, id_poste , id}})
+                                            SET libelle= :libelle, prix = :prix, "type" = :type, id_user = :id_user
+                                            WHERE id_gamme = :id;`,
+            { replacements: { libelle, prix , type, id_user, id}})
             .then(([results, metadata]) => {
-                // console.log("Modification de poste effectuée.", results);
+                 //console.log("Modification de gamme effectuée.", results);
             });
 
         return 'ok';
     } catch (error) {
         //console.error('Erreur lors de la modification de machine:', error);
-        return 'Erreur lors de la modification de machine.'
+        return 'Erreur lors de la modification de gamme.'
     }
 
 }
