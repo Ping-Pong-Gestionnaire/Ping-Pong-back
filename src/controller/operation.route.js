@@ -35,7 +35,7 @@ router.post("/supp",body('id'),async(req,res) => {
 });
 router.get("/getAll",async(req,res) => {
 
-    let getAll =  await gammeRepository.getAll();
+    let getAll =  await operationRepository.getAll();
     res.status(200).json(getAll);
 
 });
