@@ -42,6 +42,7 @@ router.post("/supp", body('id'),async(req,res) => {
 router.get("/getAll",async(req,res) => {
 
     let getAll =  await userRepository.getAll();
+    res.setHeader('Content-Type', 'application/json');
     res.status(200).json(getAll);
 
 });
