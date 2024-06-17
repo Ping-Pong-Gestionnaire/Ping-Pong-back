@@ -67,70 +67,31 @@ exports.suppOperation = async (id) => {
 };
 exports.getAll = async () => {
     try{
-        const gamme = await Gamme.findAll();
+        const operation = await Operation.findAll();
         //console.log('All poste:', JSON.stringify(postes, null, 2));
-        return gamme;
+        return operation;
     }
     catch(error){
-        return "Erreur lors de la demande d'information sur les gammes."
+        return "Erreur lors de la demande d'information sur les operations."
     }
 
 }
 exports.getOne = async (id) => {
     try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
-                                            from gammes, users
-                                            where  id_gamme = :id 
-                                            and gammes."id_user" = users."id_user"`, { replacements: { id }})
+        const operation = await sequelize.query(`SELECT id_operation, libelle, "tempsRea", description, operations.id_machine, operations.id_poste, machines.nom as nommachine, postes.nom as nomposte
+                                            from operations, machines, postes
+                                            where  id_operation  = :id 
+                                            and machines."id_machine" = operations."id_machine"
+                                            and postes."id_poste" = operations."id_poste"`, { replacements: { id }})
             .then(([results, metadata]) => {
                 return results[0];
             });
-        console.log("gamme = " + gamme);
-        return gamme;
+        console.log("operation = " + operation);
+        return operation;
     }
     catch(error){
-        console.log("Erreur sur la demande d'info de gamme" + error)
-        return "Erreur lors de la demande d'information sur la gamme."
-    }
-
-
-}
-
-exports.getByType = async (type) => {
-    try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
-                                            from gammes, users
-                                            where  type = :type
-                                            and gammes."id_user" = users."id_user"`, { replacements: { type }})
-            .then(([results, metadata]) => {
-                return results;
-            });
-        console.log("gamme = " + gamme);
-        return gamme;
-    }
-    catch(error){
-        console.log("Erreur sur la demande d'info de gamme" + error)
-        return "Erreur lors de la demande d'information sur la gamme."
-    }
-
-
-}
-
-exports.getByUser = async (id_user) => {
-    try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
-                                            from gammes, users
-                                            where  gammes.id_user = :id_user
-                                            and gammes."id_user" = users."id_user"`, { replacements: { id_user }})
-            .then(([results, metadata]) => {
-                return results;
-            });
-        console.log("gamme = " + gamme);
-        return gamme;
-    }
-    catch(error){
-        console.log("Erreur sur la demande d'info de gamme" + error)
-        return "Erreur lors de la demande d'information sur la gamme."
+        console.log("Erreur sur la demande d'info d'operation" + error)
+        return "Erreur lors de la demande d'information sur l'operation."
     }
 
 
@@ -139,19 +100,20 @@ exports.getByUser = async (id_user) => {
 exports.getByName = async (nom) => {
     nom = '%' + nom + '%';
     try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
-                                            from gammes, users
-                                            where  libelle like  :nom
-                                            and gammes."id_user" = users."id_user"`, { replacements: { nom }})
+        const operation = await sequelize.query(`SELECT id_operation, libelle, "tempsRea", description, operations.id_machine, operations.id_poste, machines.nom as nommachine, postes.nom as nomposte
+                                            from operations, machines, postes
+                                            where  operations.libelle like  :nom
+                                            and machines."id_machine" = operations."id_machine"
+                                            and postes."id_poste" = operations."id_poste"`, { replacements: { nom }})
             .then(([results, metadata]) => {
                 return results;
             });
-        console.log("gamme = " + gamme);
-        return gamme;
+        console.log("operation = " + operation);
+        return operation;
     }
     catch(error){
-        console.log("Erreur sur la demande d'info de gamme" + error)
-        return "Erreur lors de la demande d'information sur la gamme."
+        console.log("Erreur sur la demande d'info d'operation" + error)
+        return "Erreur lors de la demande d'information sur l'operation."
     }
 
 
