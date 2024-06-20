@@ -14,6 +14,7 @@ const User = require('../datamodel/user.model');
 const Habilitation = require('../datamodel/habilitation.model');
 const Gamme = require('../datamodel/gamme.model');
 const Operation = require('../datamodel/operation.model');
+const ListeOperation = require('../datamodel/listeOperation.model');
 
 
 class WebServer {
@@ -32,6 +33,7 @@ class WebServer {
         Operation.belongsTo(Machine, {foreignKey: "id_machine"});
         Operation.belongsTo(Poste, {foreignKey: "id_poste"});
         User.belongsToMany(Poste, { through: Habilitation });
+        Gamme.belongsToMany(Operation, { through: ListeOperation });
 
         require('dotenv').config();
         initializeConfigMiddlewares(this.app);

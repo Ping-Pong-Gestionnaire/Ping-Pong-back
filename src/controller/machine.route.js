@@ -24,6 +24,16 @@ router.post("/modif", body('id'), body('nom'), body('id_poste'),async(req,res) =
         res.status(400).send(modifMachine);
     }
 });
+router.post("/suppPoste", body('id'),async(req,res) => {
+
+    const modifMachine =  await machineRepository.suppPosteMachine(req.body.id);
+    if(modifMachine === "ok"){
+        res.status(200).end();
+    }
+    else{
+        res.status(400).send(modifMachine);
+    }
+});
 router.post("/supp",body('id'),async(req,res) => {
 
     const suppMachine =  await machineRepository.suppMachine(req.body.id);

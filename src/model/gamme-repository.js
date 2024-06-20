@@ -103,10 +103,11 @@ exports.getOne = async (id) => {
 }
 
 exports.getByType = async (type) => {
+    type = '%' + type + '%';
     try{
         const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
                                             from gammes, users
-                                            where  type = :type
+                                            where  lower(type) like lower(:type)
                                             and gammes."id_user" = users."id_user"`, { replacements: { type }})
             .then(([results, metadata]) => {
                 return results;
@@ -147,8 +148,30 @@ exports.getByName = async (nom) => {
     try{
         const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
                                             from gammes, users
-                                            where  libelle like  :nom
+                                            where  LOWER(libelle) like  LOWER(:nom)
                                             and gammes."id_user" = users."id_user"`, { replacements: { nom }})
+            .then(([results, metadata]) => {
+                return results;
+            });
+        console.log("gamme = " + gamme);
+        return gamme;
+    }
+    catch(error){
+        console.log("Erreur sur la demande d'info de gamme" + error)
+        return "Erreur lors de la demande d'information sur la gamme."
+    }
+
+
+}
+exports.getByNameAndType = async (nom, type) => {
+    nom = '%' + nom + '%';
+    type = '%' + type + '%';
+    try{
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
+                                            from gammes, users
+                                            where  LOWER(libelle) like  LOWER(:nom)
+                                            and  LOWER(type) like  LOWER(:type)
+                                            and gammes."id_user" = users."id_user"`, { replacements: { nom, type }})
             .then(([results, metadata]) => {
                 return results;
             });

@@ -64,4 +64,11 @@ router.get("/getByName/:nom",async(req,res) => {
 
 });
 
+router.get("/getByNameAndType/:nom/:type",async(req,res) => {
+
+    let getALL=  await gammeRepository.getByNameAndType(req.params.nom,req.params.type );
+    res.status(200).json(getALL);
+
+});
+
 exports.initializeRoutesGamme = () => router;

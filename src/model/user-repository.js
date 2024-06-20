@@ -4,23 +4,23 @@ const bcrypt = require('bcryptjs');
 const md5 = require('md5');
 
 
-exports.createUsers = async (login, mdp) => {
+exports.createUsers = async (login, mdp, droit) => {
     const  sel = bcrypt.genSaltSync(12);
     const mdphash = bcrypt.hashSync(mdp , sel);
 
     const user = await this.isUser(login);
     console.log(user)
     if( user === undefined ){
-        async function createUser(login, mdphash) {
+        async function createUser(login, mdphash,droit) {
             try {
-                const newUser = await User.create({ login, mdp: mdphash });
+                const newUser = await User.create({ login, mdp: mdphash , droit: droit});
                 console.log('New user created:', newUser);
             } catch (error) {
                 console.error('Error creating new user:', error);
             }
         }
 
-        createUser(login, mdphash);
+        createUser(login, mdphash, droit);
         return 'ok';
     }
     else{
@@ -31,7 +31,7 @@ exports.createUsers = async (login, mdp) => {
 
 exports.isUser = async (nom_uti) => {
 
-    const user = await sequelize.query('SELECT id_user, login, mdp from users where login =  :nom_uti', { replacements: { nom_uti }})
+    const user = await sequelize.query('SELECT id_user, login, mdp, droit from users where login =  :nom_uti', { replacements: { nom_uti }})
         .then(([results, metadata]) => {
             return results[0];
         });
@@ -87,7 +87,7 @@ exports.getAll = async () => {
 }
 exports.getOne = async (id) => {
     try{
-        const user = await sequelize.query(`SELECT id_user, login, mdp, nom, prenom,  email 
+        const user = await sequelize.query(`SELECT id_user, login, mdp, nom, prenom,  email , droit
                                             from users 
                                             where  id_user = ${id} `)
             .then(([results, metadata]) => {

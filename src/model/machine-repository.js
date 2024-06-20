@@ -61,6 +61,23 @@ exports.modifMachine = async (id, nom, id_poste) =>{
     }
 
 }
+exports.suppPosteMachine = async (id) =>{
+
+    try{
+        const machine = await sequelize.query(`UPDATE machines 
+                                            SET  id_poste = null
+                                            WHERE id_machine = :id;`,
+            { replacements: {id}})
+            .then(([results, metadata]) => {
+                console.log("Modification de poste effectuée.", results);
+            });
+        return 'ok';
+    } catch (error) {
+        //console.error('Erreur lors de la modification de machine:', error);
+        return 'Erreur lors de la modification de machine.' + error
+    }
+
+}
 
 exports.suppMachine = async (id) => {
     try{

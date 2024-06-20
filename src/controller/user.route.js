@@ -7,9 +7,9 @@ const  jwt= require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {stringify} = require("nodemon/lib/utils");
 
-router.post("/crea", body('login'), body('mdp'),async(req,res) => {
+router.post("/crea", body('login'), body('mdp'),body('droit'), async(req,res) => {
 
-    const createUser =  await userRepository.createUsers(req.body.login, req.body.mdp);
+    const createUser =  await userRepository.createUsers(req.body.login, req.body.mdp, req.body.droit);
     console.log(createUser);
     if(createUser === "ok"){
         res.status(200).end();
