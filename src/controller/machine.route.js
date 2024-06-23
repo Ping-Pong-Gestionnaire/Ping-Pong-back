@@ -56,6 +56,12 @@ router.get("/getOne/:id",async(req,res) => {
     res.status(200).json(getOne);
 
 });
+router.get("/getByName/:name",async(req,res) => {
+
+    let getOne=  await machineRepository.getByName(req.params.name);
+    res.status(200).json(getOne);
+
+});
 router.get("/getSansPoste",async(req,res) => {
 
     let getOne=  await machineRepository.getSansPoste();

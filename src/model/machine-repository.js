@@ -102,9 +102,10 @@ exports.getAll = async () => {
 }
 exports.getOne = async (id) => {
     try{
-        const machine = await sequelize.query(`SELECT id_machine, nom, id_poste
-                                            from machines 
-                                            where  id_machine = :id `, { replacements: { id }})
+        const machine = await sequelize.query(`SELECT id_machine, machines.nom, machines.id_poste, postes.nom as nomposte
+                                            from machines
+                                            LEFT JOIN postes  ON machines.id_poste = postes.id_poste
+                                            where  id_machine = :id`, { replacements: { id }})
             .then(([results, metadata]) => {
                 return results[0];
             });
@@ -120,14 +121,33 @@ exports.getSansPoste = async () => {
     try{
         const machine = await sequelize.query(`SELECT id_machine, nom, id_poste
                                             from machines 
-                                            where  id_poste = null`)
+                                            where  id_poste is null `)
             .then(([results, metadata]) => {
-                return results[0];
+                return results;
             });
         console.log("machine = " + machine);
         return machine;
     }
     catch(error){
+        return "Erreur lors de la demande d'information sur les machines."
+    }
+
+}
+
+exports.getByName = async (nom) => {
+    nom = '%' + nom + '%';
+    try{
+        const operation = await sequelize.query(`SELECT id_machine, nom, id_poste
+                                                 from machines
+                                                 where  lower(nom) like :nom  `, { replacements: { nom }})
+            .then(([results, metadata]) => {
+                return results;
+            });
+        console.log("machine = " + operation);
+        return operation;
+    }
+    catch(error){
+        console.log("Erreur sur la demande d'info machine" + error)
         return "Erreur lors de la demande d'information sur les machines."
     }
 
