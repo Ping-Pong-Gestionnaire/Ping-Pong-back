@@ -56,5 +56,12 @@ router.get("/getOne/:id",async(req,res) => {
     res.status(200).json(getOne);
 
 });
+router.get("/getSansPoste",async(req,res) => {
+
+    let getOne=  await machineRepository.getSansPoste();
+    res.status(200).json(getOne);
+
+});
+
 
 exports.initializeRoutesMachine = () => router;

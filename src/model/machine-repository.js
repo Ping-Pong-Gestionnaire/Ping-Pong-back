@@ -115,5 +115,20 @@ exports.getOne = async (id) => {
         return "Erreur lors de la demande d'information sur les machines."
     }
 
+}
+exports.getSansPoste = async () => {
+    try{
+        const machine = await sequelize.query(`SELECT id_machine, nom, id_poste
+                                            from machines 
+                                            where  id_poste = null`)
+            .then(([results, metadata]) => {
+                return results[0];
+            });
+        console.log("machine = " + machine);
+        return machine;
+    }
+    catch(error){
+        return "Erreur lors de la demande d'information sur les machines."
+    }
 
 }

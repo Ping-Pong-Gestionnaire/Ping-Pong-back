@@ -51,5 +51,39 @@ router.get("/getByName/:nom",async(req,res) => {
     res.status(200).json(getALL);
 
 });
+router.get("/getByListeOp/:id",async(req,res) => {
+
+    let getALL=  await operationRepository.getByListeOp(req.params.id);
+    res.status(200).json(getALL);
+
+});
+router.post("/suppListeOp",body('id_operation'), body('id_gamme'), async(req,res) => {
+
+    const suppOperation =  await operationRepository.suppListeOperation(req.body.id_operation, req.body.id_gamme);
+    if(suppOperation === "ok"){
+        res.status(200).end();
+    }
+    else{
+        res.status(400).send(suppOperation);
+    }
+});
+
+router.post("/creaListeOp",body('id_operation'), body('id_gamme'), async(req,res) => {
+
+    const creaOperation =  await operationRepository.createListeOp(req.body.id_operation, req.body.id_gamme);
+    if(creaOperation === "ok"){
+        res.status(200).end();
+    }
+    else{
+        res.status(400).send(creaOperation);
+    }
+});
+
+router.get("/getOpNotInListeOp/:id",async(req,res) => {
+
+    let getALL=  await operationRepository.getOpNotInListeOp(req.params.id);
+    res.status(200).json(getALL);
+
+});
 
 exports.initializeRoutesOperation = () => router;
