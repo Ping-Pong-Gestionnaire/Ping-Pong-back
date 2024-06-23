@@ -120,9 +120,9 @@ exports.getSansPoste = async () => {
     try{
         const machine = await sequelize.query(`SELECT id_machine, nom, id_poste
                                             from machines 
-                                            where  id_poste = null`)
+                                            where  id_poste is null `)
             .then(([results, metadata]) => {
-                return results[0];
+                return results;
             });
         console.log("machine = " + machine);
         return machine;
