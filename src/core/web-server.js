@@ -7,6 +7,7 @@ const routesMachine = require('../controller/machine.route');
 const routesHabilitation = require('../controller/habilitation.route');
 const routesGamme = require('../controller/gamme.route');
 const routesOperation = require('../controller/operation.route');
+const routesRealisation = require('../controller/realisation.route');
 const {sequelize} = require("../datamodel/db")
 const Machine = require('../datamodel/machine.model');
 const Poste = require('../datamodel/poste.model');
@@ -15,6 +16,9 @@ const Habilitation = require('../datamodel/habilitation.model');
 const Gamme = require('../datamodel/gamme.model');
 const Operation = require('../datamodel/operation.model');
 const ListeOperation = require('../datamodel/listeOperation.model');
+const ListeMachinePoste = require('../datamodel/listeMachinePoste.model');
+const Realisation = require('../datamodel/realisation.model');
+const {Op} = require("sequelize");
 
 
 class WebServer {
@@ -31,9 +35,16 @@ class WebServer {
         Machine.belongsTo(Poste, {foreignKey: "id_poste"});
         Gamme.belongsTo(User, {foreignKey: "id_user"});
         Operation.belongsTo(Machine, {foreignKey: "id_machine"});
-        Operation.belongsTo(Poste, {foreignKey: "id_poste"});
+        Realisation.belongsTo(Poste, {foreignKey: "id_poste"});
+        Realisation.belongsTo(Machine, {foreignKey: "id_machine"});
+        Realisation.belongsTo(User, {foreignKey: "id_user"});
+        Realisation.belongsTo(Operation, {foreignKey: "id_operation"});
+
+
         User.belongsToMany(Poste, { through: Habilitation });
         Gamme.belongsToMany(Operation, { through: ListeOperation });
+        Machine.belongsToMany(Poste, { through: ListeMachinePoste });
+
 
         require('dotenv').config();
         initializeConfigMiddlewares(this.app);
@@ -59,6 +70,7 @@ class WebServer {
         this.app.use('/habilitation', routesHabilitation.initializeRoutesHabilitation());
         this.app.use('/gamme', routesGamme.initializeRoutesGamme());
         this.app.use('/operation', routesOperation.initializeRoutesOperation());
+        this.app.use('/realisation', routesRealisation.initializeRoutesRealisation());
 
     }
 }

@@ -97,8 +97,9 @@ exports.getOne = async (id) => {
 exports.getMachines = async (id) => {
     try{
         const machines = await sequelize.query(`SELECT id_machine, nom , id_poste
-                                            from machines 
-                                            where  id_poste = :id `, { replacements: { id }})
+                                            from "listeMachinesPostes", machines 
+                                            where "listeMachinesPostes"."machineIdMachine" = machines.id_machine
+                                            and "listeMachinesPostes"."posteIdPoste" = :id `, { replacements: { id }})
             .then(([results, metadata]) => {
                 return results;
             });

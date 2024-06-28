@@ -117,6 +117,7 @@ exports.getOne = async (id) => {
     }
 
 }
+//obselete
 exports.getSansPoste = async () => {
     try{
         const machine = await sequelize.query(`SELECT id_machine, nom, id_poste

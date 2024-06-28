@@ -73,7 +73,12 @@ exports.suppGamme = async (id) => {
 };
 exports.getAll = async () => {
     try{
-        const gamme = await Gamme.findAll();
+        const gamme = await Gamme.findAll({
+            order: [
+                ['createdAt', 'DESC'],  // Ordre décroissant par createTime
+                ['updatedAt', 'DESC']   // Ordre décroissant par updateTime
+            ]
+        });
         //console.log('All poste:', JSON.stringify(postes, null, 2));
         return gamme;
     }
@@ -108,7 +113,10 @@ exports.getByType = async (type) => {
         const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
                                             from gammes, users
                                             where  lower(type) like lower(:type)
-                                            and gammes."id_user" = users."id_user"`, { replacements: { type }})
+                                            and gammes."id_user" = users."id_user"
+                                            ORDER BY
+                                                 gammes."createdAt" DESC, 
+                                                 gammes."updatedAt" DESC`, { replacements: { type }})
             .then(([results, metadata]) => {
                 return results;
             });
@@ -149,7 +157,9 @@ exports.getByName = async (nom) => {
         const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
                                             from gammes, users
                                             where  LOWER(libelle) like  LOWER(:nom)
-                                            and gammes."id_user" = users."id_user"`, { replacements: { nom }})
+                                            and gammes."id_user" = users."id_user" 
+                                            ORDER BY 
+                                                gammes."createdAt" DESC, gammes."updatedAt" DESC`, { replacements: { nom }})
             .then(([results, metadata]) => {
                 return results;
             });
@@ -171,7 +181,9 @@ exports.getByNameAndType = async (nom, type) => {
                                             from gammes, users
                                             where  LOWER(libelle) like  LOWER(:nom)
                                             and  LOWER(type) like  LOWER(:type)
-                                            and gammes."id_user" = users."id_user"`, { replacements: { nom, type }})
+                                            and gammes."id_user" = users."id_user"
+                                            ORDER BY
+                                                 gammes."createdAt" DESC,  gammes."updatedAt" DESC`, { replacements: { nom, type }})
             .then(([results, metadata]) => {
                 return results;
             });
