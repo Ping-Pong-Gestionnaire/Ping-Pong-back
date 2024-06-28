@@ -153,3 +153,19 @@ exports.getByName = async (nom) => {
     }
 
 }
+
+exports.getPostes = async (id) => {
+    try{
+        const machines = await sequelize.query(`SELECT id_poste, nom 
+                                            from "listeMachinesPostes", postes
+                                            where "listeMachinesPostes"."machineIdMachine" = :id
+                                            and "listeMachinesPostes"."posteIdPoste" = postes.id_poste `, { replacements: { id }})
+            .then(([results, metadata]) => {
+                return results;
+            });
+        console.log("machines = " + machines);
+        return machines;
+    }catch{
+        return "Erreur lors de la demande d'information."
+    }
+}

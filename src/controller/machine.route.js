@@ -68,6 +68,13 @@ router.get("/getSansPoste",async(req,res) => {
     res.status(200).json(getOne);
 
 });
+router.get("/getPoste/:id",async(req,res) => {
+
+    let getOne=  await machineRepository.getPostes(req.params.id);
+    res.status(200).json(getOne);
+
+});
+
 
 
 exports.initializeRoutesMachine = () => router;
