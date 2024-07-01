@@ -37,12 +37,13 @@ class WebServer {
 
     constructor() {
         this.app = express();
-        sequelize.sync();
+        sequelize.sync({alter: true});
 
        // Poste.hasMany(Machine, {foreignKey: "id_poste"})
         Machine.belongsTo(Poste, {foreignKey: "id_poste"});
 
         Gamme.belongsTo(User, {foreignKey: "id_user"});
+        Gamme.belongsTo(Fournisseur, {foreignKey: "id_fourn"});
 
         Operation.belongsTo(Machine, {foreignKey: "id_machine"});
 

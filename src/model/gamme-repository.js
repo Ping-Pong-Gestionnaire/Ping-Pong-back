@@ -7,23 +7,23 @@ const Poste = require("../datamodel/poste.model");
 // VEN : vendable
 // INT : intermédiare
 
-exports.createGamme= async ( libelle, prix, type, qte, id_user) => {
+exports.createGamme= async ( libelle, prix, type, qte, id_user, id_fourn) => {
 
     const gamme = await this.isExisting(libelle);
     console.log(gamme)
 
     if( gamme === undefined ){
-        async function createMachine(libelle, prix, type, qte, id_user) {
+        async function createMachine(libelle, prix, type, qte, id_user, id_fourn) {
             try {
 
-                const newMachine = await Gamme.create({ libelle : libelle, prix: prix, type: type, qte: qte,  id_user : id_user });
+                const newMachine = await Gamme.create({ libelle : libelle, prix: prix, type: type, qte: qte,  id_user : id_user, id_fourn: id_fourn });
 
             } catch (error) {
                 console.error('Erreur lors de la création de gamme :', error);
             }
         }
 
-        createMachine(libelle, prix, type, qte,  id_user);
+        createMachine(libelle, prix, type, qte,  id_user, id_fourn);
         return 'ok';
     }
     else{
@@ -42,23 +42,22 @@ exports.isExisting = async (libelle) => {
     return gamme;
 }
 
-exports.modifGamme = async (id, libelle, prix, type,qte,  id_user) =>{
+exports.modifGamme = async (id, libelle, prix, type,qte,  id_user, id_fourn) =>{
 
     try{
         const machine = await sequelize.query(`UPDATE gammes 
-                                            SET libelle= :libelle, prix = :prix, "type" = :type, "qte" = :qte , id_user = :id_user
+                                            SET libelle= :libelle, prix = :prix, "type" = :type, "qte" = :qte , id_user = :id_user, id_fourn= :id_fourn
                                             WHERE id_gamme = :id;`,
-            { replacements: { libelle, prix , type,qte,  id_user, id}})
+            { replacements: { libelle, prix , type,qte,  id_user, id, id_fourn}})
             .then(([results, metadata]) => {
                  //console.log("Modification de gamme effectuée.", results);
             });
 
         return 'ok';
     } catch (error) {
-        //console.error('Erreur lors de la modification de machine:', error);
+        console.error('Erreur lors de la modification de machine:', error);
         return 'Erreur lors de la modification de gamme.'
     }
-
 }
 
 exports.suppGamme = async (id) => {
@@ -89,7 +88,7 @@ exports.getAll = async () => {
 }
 exports.getOne = async (id) => {
     try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login, id_fourn
                                             from gammes, users
                                             where  id_gamme = :id 
                                             and gammes."id_user" = users."id_user"`, { replacements: { id }})
@@ -110,7 +109,7 @@ exports.getOne = async (id) => {
 exports.getByType = async (type) => {
     type = '%' + type + '%';
     try{
-        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, users.id_user, users.login, id_fourn
                                             from gammes, users
                                             where  lower(type) like lower(:type)
                                             and gammes."id_user" = users."id_user"

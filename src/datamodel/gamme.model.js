@@ -10,6 +10,8 @@ const gamme = sequelize.define(
         type: { type: DataTypes.STRING, allowNull: false },
         qte: { type: DataTypes.DECIMAL, allowNull: false },
         id_user: { foreignKey:true, type: DataTypes.INTEGER, allowNull: false },
+        id_fourn: { foreignKey:true, type: DataTypes.INTEGER, allowNull: true },
+
     },
     { tableName: 'gammes' },
 );

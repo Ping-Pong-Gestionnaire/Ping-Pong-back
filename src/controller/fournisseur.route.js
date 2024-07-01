@@ -52,6 +52,12 @@ router.get("/getByName/:name",async(req,res) => {
     res.status(200).json(getALL);
 
 });
+router.get("/getGamme/:id",async(req,res) => {
+
+    let getALL=  await fournRepository.getGamme(req.params.id);
+    res.status(200).json(getALL);
+
+});
 
 
 exports.initializeRoutesFourn = () => router;
