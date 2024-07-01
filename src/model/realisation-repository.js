@@ -24,12 +24,30 @@ exports.createRealisation= async ( tempsRea, date, id_machine,  id_poste,  id_us
 }
 
 exports.getAll = async () => {
+
     try{
-        const rea = await Realisation.findAll();
-        return rea;
+        const operation = await sequelize.query(`SELECT realisations."tempsRea",
+                                                            date, 
+                                                            id_realisation, 
+                                                            machines.nom as "nomMachine",
+                                                            postes.nom as "nomPoste",
+                                                            users.login as user,
+                                                            operations.libelle as nomOperation
+                                            from realisations, users, postes, machines, operations
+                                            where realisations.id_poste = postes.id_poste
+                                            and realisations.id_machine = machines.id_machine
+                                            and realisations.id_user = users.id_user
+                                            and realisations.id_operation = operations.id_operation
+                                            order by realisations.date desc`)
+            .then(([results, metadata]) => {
+                return results;
+            });
+        console.log("operation = " + operation);
+        return operation;
     }
     catch(error){
-        return "Erreur lors de la demande d'information sur les postes."
+        console.log("Erreur sur la demande d'info d'operation" + error)
+        return "Erreur lors de la demande d'information sur l'operation."
     }
 
 }

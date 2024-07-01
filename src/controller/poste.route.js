@@ -47,9 +47,9 @@ router.get("/getOne/:id",async(req,res) => {
     res.status(200).json(getOne);
 
 });
-router.get("/getMachines/:id",async(req,res) => {
+router.get("/getMachine/:id",async(req,res) => {
 
-    let getOne=  await posteRepository.getMachines(req.params.id);
+    let getOne=  await posteRepository.getMachine(req.params.id);
     res.status(200).json(getOne);
 
 });

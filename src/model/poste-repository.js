@@ -94,7 +94,7 @@ exports.getOne = async (id) => {
 
 }
 
-exports.getMachines = async (id) => {
+exports.getMachine = async (id) => {
     try{
         const machines = await sequelize.query(`SELECT id_machine, nom , id_poste
                                             from "listeMachinesPostes", machines 
