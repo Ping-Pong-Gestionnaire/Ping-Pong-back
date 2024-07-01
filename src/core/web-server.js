@@ -9,6 +9,7 @@ const routesGamme = require('../controller/gamme.route');
 const routesOperation = require('../controller/operation.route');
 const routesRealisation = require('../controller/realisation.route');
 const routesListeMP = require('../controller/listeMachinePoste.route');
+const routesFournisseur = require('../controller/fournisseur.route');
 const {sequelize} = require("../datamodel/db")
 const Machine = require('../datamodel/machine.model');
 const Poste = require('../datamodel/poste.model');
@@ -74,6 +75,7 @@ class WebServer {
         this.app.use('/operation', routesOperation.initializeRoutesOperation());
         this.app.use('/realisation', routesRealisation.initializeRoutesRealisation());
         this.app.use('/listemp', routesListeMP.initializeRoutesListeMP());
+        this.app.use('/fourn', routesFournisseur.initializeRoutesFourn());
 
     }
 }
