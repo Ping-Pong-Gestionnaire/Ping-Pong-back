@@ -1,5 +1,6 @@
 const ListeMachinePoste = require('../datamodel/listeMachinePoste.model');
 const Habilitation = require("../datamodel/habilitation.model");
+const {sequelize} = require("../datamodel/db");
 
 exports.createListeMP= async (id_machine,  id_poste) => {
 
@@ -27,3 +28,4 @@ exports.suppListeMP = async (id_machine, id_poste) => {
     }
 
 };
+
