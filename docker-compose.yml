@@ -5,19 +5,43 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_DB: PINGPONGDB
-      POSTGRES_USER: ADMIN
-      POSTGRES_PASSWORD: ADMIN
+      POSTGRES_DB: pingpongdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     volumes:
       - data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
       - app-network
+    command: ["postgres", "-c", "log_statement=all"]
+  nodejs:
+      depends_on:
+        - postgresql
+      container_name: nodejs
+      build:
+        context: .
+        dockerfile: Dockerfile
+      ports:
+        - "3333:3333"
+      volumes:
+        - .:/app
+        - /app/node_modules
+      environment:
+        - CONNECTION_STRING=postgresql://admin:admin@postgresql:5432/pingpongdb
+        - PORT=3333
+        - NODE_ENV=development
+      command: npm run start
+
+      networks:
+        - app-network
+
 
 volumes:
   data:
 networks:
   app-network:
     driver: bridge
+
+
 

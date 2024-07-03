@@ -36,7 +36,7 @@ const initLoggerMiddlware = (app) => {
         jwt({
             secret: process.env.SECRET_KEY,
             algorithms: ["HS256"],
-        }).unless({ path: [{ url: "/auth/creationcompte", methods: ["POST"] }, { url: "/auth/login", methods: ["POST"] }] })
+        }).unless({ path: [{ url: "/user/creationcompte", methods: ["POST"] }, { url: "/auth/login", methods: ["POST"] }] })
     );
 }*/
 // appel deux fonction
