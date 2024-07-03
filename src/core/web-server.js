@@ -31,7 +31,7 @@ const {Op} = require("sequelize");
 
 class WebServer {
     app = undefined;
-    port = 3333;
+    port = process.env.PORT;
     server = undefined;
 
 
