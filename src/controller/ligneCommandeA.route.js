@@ -4,9 +4,9 @@ const { body, validationResult } = require('express-validator');
 const fournRepository = require("../model/fournisseur-repository");
 const LigneCRepository = require("../model/ligneCommandeAchat-repository");
 
-router.post("/crea", body('libelle'),body('qte'),body('prix'),body('id_gamme'), body('id_commande'),async(req,res) => {
+router.post("/crea", body('libelle'),body('qte'),body('prix'),body('prix_unitaire'), body('id_gamme'), body('id_commande'),async(req,res) => {
 
-    const createLigne =  await LigneCRepository.createLigne(req.body.libelle, req.body.qte, req.body.prix, req.body.id_gamme, req.body.id_commande);
+    const createLigne =  await LigneCRepository.createLigne(req.body.libelle, req.body.qte, req.body.prix,req.body.prix_unitaire,  req.body.id_gamme, req.body.id_commande);
     if(createLigne === "ok"){
         res.status(200).end();
     }

@@ -64,6 +64,13 @@ router.get("/getByName/:nom",async(req,res) => {
 
 });
 
+router.get("/getByFourn/:id",async(req,res) => {
+
+    let getALL=  await gammeRepository.getByFourn(req.params.id);
+    res.status(200).json(getALL);
+
+});
+
 router.get("/getByNameAndType/:nom/:type",async(req,res) => {
 
     let getALL=  await gammeRepository.getByNameAndType(req.params.nom,req.params.type );

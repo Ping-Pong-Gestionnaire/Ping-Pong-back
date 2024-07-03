@@ -3,18 +3,18 @@ const LigneC = require('../datamodel/ligneCommandeAchat.model');
 const {sequelize} = require("../datamodel/db")
 
 
-exports.createLigne= async ( libelle, qte, prix , id_gamme, id_commande ) => {
-    async function createLigne(libelle, qte, prix , id_gamme, id_commande) {
+exports.createLigne= async ( libelle, qte, prix, prix_unitaire , id_gamme, id_commande ) => {
+    async function createLigne(libelle, qte, prix , prix_unitaire,  id_gamme, id_commande) {
         try {
 
-            const newFourn = await LigneC.create({ libelle: libelle,qte: qte,prix: prix , id_gamme: id_gamme, id_commande: id_commande });
+            const newFourn = await LigneC.create({ libelle: libelle,qte: qte,prix: prix , prix_unitaire: prix_unitaire, id_gamme: id_gamme, id_commande: id_commande });
 
         } catch (error) {
             console.error('Erreur lors de la création de fournisseur :', error);
         }
     }
 
-    createLigne( libelle, qte, prix , id_gamme, id_commande);
+    createLigne( libelle, qte, prix ,prix_unitaire, id_gamme,  id_commande);
     return 'ok';
 
 }
@@ -85,7 +85,7 @@ exports.getOne = async (id) => {
 
 exports.getByCommande = async (id) => {
     try{
-        const ligne = await sequelize.query(`SELECT id_ligne, libelle, qte, prix , id_gamme, id_commande
+        const ligne = await sequelize.query(`SELECT id_ligne, libelle, qte, prix ,prix_unitaire, id_gamme, id_commande
                                             from "lignescommandesA"
                                             where  id_commande = :id
                                             ORDER BY

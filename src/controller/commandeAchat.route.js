@@ -4,9 +4,9 @@ const { body, validationResult } = require('express-validator');
 const LigneCRepository = require("../model/ligneCommandeAchat-repository");
 const CommandeRepository = require("../model/commandeAchat-repository");
 
-router.post("/crea", body('statut'),body('dateLivPrev'),body('dateLivReel'),body('id_fourn'), async(req,res) => {
+router.post("/crea", body('statut'),body('dateLivPrev'),body('dateLivReel'),body('id_fourn'), body('matricule'), async(req,res) => {
 
-    const createCommande =  await CommandeRepository.createCommande(req.body.statut, req.body.dateLivPrev, req.body.dateLivReel, req.body.id_fourn);
+    const createCommande =  await CommandeRepository.createCommande(req.body.statut, req.body.dateLivPrev, req.body.dateLivReel, req.body.id_fourn, req.body.matricule);
     if(createCommande === "ok"){
         res.status(200).end();
     }
@@ -46,15 +46,22 @@ router.get("/getOne/:id",async(req,res) => {
     res.status(200).json(getOne);
 
 });
-router.get("/getByStatut/:statut",async(req,res) => {
+router.get("/getByStatut/:statut/:nom",async(req,res) => {
 
-    let getALL=  await CommandeRepository.getByStatut(req.params.statut);
+    let getALL=  await CommandeRepository.getByStatut(req.params.statut, req.params.nom);
     res.status(200).json(getALL);
 
 });
 router.get("/getById/:id",async(req,res) => {
 
     let getALL=  await CommandeRepository.getById(req.params.id);
+    res.status(200).json(getALL);
+
+});
+
+router.get("/getByMois/:mois",async(req,res) => {
+
+    let getALL=  await CommandeRepository.getByMois(req.params.mois);
     res.status(200).json(getALL);
 
 });

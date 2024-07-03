@@ -193,6 +193,25 @@ exports.getByNameAndType = async (nom, type) => {
         console.log("Erreur sur la demande d'info de gamme" + error)
         return "Erreur lors de la demande d'information sur la gamme."
     }
+}
+
+exports.getByFourn = async (id) => {
+    try{
+        const gamme = await sequelize.query(`SELECT id_gamme, libelle, prix, type, qte, id_fourn
+                                            from gammes 
+                                            where  id_fourn = :id
+                                            ORDER BY 
+                                                libelle`, { replacements: { id }})
+            .then(([results, metadata]) => {
+                return results;
+            });
+        console.log("gamme = " + gamme);
+        return gamme;
+    }
+    catch(error){
+        console.log("Erreur sur la demande d'info de gamme" + error)
+        return "Erreur lors de la demande d'information sur la gamme."
+    }
 
 
 }

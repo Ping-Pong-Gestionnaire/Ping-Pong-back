@@ -8,6 +8,7 @@ const commandeAchat = sequelize.define(
         statut: { type: DataTypes.STRING, allowNull: false },
         dateLivPrev: { type: DataTypes.DATEONLY, allowNull: false },
         dateLivReel: { type: DataTypes.DATEONLY, allowNull: true },
+        matricule: { type: DataTypes.STRING, allowNull: true },
 
         id_fourn: { foreignKey:true, type: DataTypes.INTEGER, allowNull: true },
     },
