@@ -3,9 +3,10 @@ const router = express.Router();
 const userRepository = require('../model/user-repository');
 const { body, validationResult } = require('express-validator');
 
-const  jwt= require("jsonwebtoken");
+const {generateAuthToken} = require('../security/auth')
 const bcrypt = require("bcryptjs");
 const {stringify} = require("nodemon/lib/utils");
+const gammeRepository = require("../model/gamme-repository");
 
 router.post("/crea", body('login'), body('mdp'),body('droit'), async(req,res) => {
 
@@ -18,9 +19,10 @@ router.post("/crea", body('login'), body('mdp'),body('droit'), async(req,res) =>
         res.status(400).send("login déjà pris.");
     }
 });
-router.post("/modif", body('id'), body('mdp'),async(req,res) => {
 
-    const modifUser =  await userRepository.modifUsers(req.body.id, req.body.mdp);
+router.post("/modif", body('id'),body('login'), body('nom'), body('prenom'), body('email'), body('droit'), body('mdp'),async(req,res) => {
+
+    const modifUser =  await userRepository.modifUsers(req.body.id,req.body.login, req.body.nom, req.body.prenom, req.body.email, req.body.droit,  req.body.mdp);
     if( modifUser === "ok"){
         res.status(200).end();
     }else{
@@ -62,8 +64,8 @@ router.post("/auth", body('login'), body('mdp'), async(req,res) =>{
 
         if (bcrypt.compareSync(req.body.mdp, is_user.mdp)) {
 
-            //const token = jwt.sign({ id_utilisateur: is_user.id_utilisateur, nom_utilisatur : req.body.login}, process.env.SECRET_KEY);
-            res.status(200).json({ is_user });
+            const token = generateAuthToken(is_user);
+            res.status(200).json({ token });
 
         } else {
             res.status(400).send("Login ou mot de passe incorrect")
@@ -75,7 +77,12 @@ router.post("/auth", body('login'), body('mdp'), async(req,res) =>{
     }
 
 });
+router.get("/getByName/:login",async(req,res) => {
 
+    let getALL=  await userRepository.getByName(req.params.login);
+    res.status(200).json(getALL);
+
+});
 
 
 exports.initializeRoutesUser = () => router;

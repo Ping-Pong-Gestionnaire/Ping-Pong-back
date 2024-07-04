@@ -25,6 +25,8 @@ const LigneCommandeA = require('../datamodel/ligneCommandeAchat.model');
 const CommandeAchat = require('../datamodel/commandeAchat.model');
 const Fournisseur = require('../datamodel/fournisseur.model');
 
+const UserRepository = require('../model/user-repository');
+
 const Realisation = require('../datamodel/realisation.model');
 const {Op} = require("sequelize");
 
@@ -38,6 +40,8 @@ class WebServer {
     constructor() {
         this.app = express();
         sequelize.sync({alter: true});
+
+        UserRepository.createUsers("admin", "admin", "administrateur");
 
        // Poste.hasMany(Machine, {foreignKey: "id_poste"})
         Machine.belongsTo(Poste, {foreignKey: "id_poste"});

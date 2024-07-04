@@ -40,18 +40,29 @@ exports.isUser = async (nom_uti) => {
 }
 
 
-exports.modifUsers = async (id, mdp) =>{
+exports.modifUsers = async (id, login, nom, prenom, email, droit , mdp) =>{
 
     try{
         const  sel = bcrypt.genSaltSync(12);
         const mdphash = bcrypt.hashSync(mdp , sel);
 
-        const user = await sequelize.query(`UPDATE users 
-                                            SET mdp = '${mdphash}'
-                                            WHERE id_user = ${id};`)
-            .then(([results, metadata]) => {
-                console.log("Modification effectuée.", results);
-            });
+        if( mdp != ""){
+            const user = await sequelize.query(`UPDATE users 
+                                            SET login = :login, nom = :nom, prenom= :prenom, droit = :droit , email= :email, mdp = :mdphash
+                                            WHERE id_user = :id ;`, { replacements: {  login, nom, prenom, email, droit , mdphash, id }})
+                .then(([results, metadata]) => {
+                    console.log("Modification effectuée.", results);
+                });
+        }
+        else{
+            const usersansmdp = await sequelize.query(`UPDATE users 
+                                            SET login = :login, nom = :nom, prenom= :prenom, droit = :droit , email= :email
+                                            WHERE id_user = :id ;`, { replacements: {  login, nom, prenom, email, droit ,  id }})
+                .then(([results, metadata]) => {
+                    console.log("Modification effectuée.", results);
+                });
+        }
+
 
         return 'ok';
     } catch (error) {
@@ -83,7 +94,6 @@ exports.getAll = async () => {
     catch(error){
         return "Erreur lors de la demande d'information sur les compte" + error
     }
-
 }
 exports.getOne = async (id) => {
     try{
@@ -99,11 +109,27 @@ exports.getOne = async (id) => {
     catch(error){
         return "Erreur lors de la demande d'information."
     }
+}
+
+exports.getByName = async (login) => {
+    login = '%' + login + '%';
+    try{
+        const user = await sequelize.query(`SELECT id_user, login, mdp, nom, prenom,  email , droit
+                                             from users
+                                             where  lower(login) like lower(:login)
+                                             order by login`, { replacements: { login }})
+            .then(([results, metadata]) => {
+                return results;
+            });
+        return user;
+    }
+    catch(error){
+        console.log("Erreur sur la demande d'info d'utilisateur " + error)
+        return "Erreur lors de la demande d'information sur la gamme."
+    }
 
 
 }
-
-
 
 /*
 exports.createUser = async (login, mdp) => {
