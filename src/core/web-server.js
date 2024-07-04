@@ -41,7 +41,7 @@ class WebServer {
         this.app = express();
         sequelize.sync({alter: true});
 
-        UserRepository.createUsers("admin", "admin", "administrateur");
+       const init =  UserRepository.createUsers("admin", "admin", "administrateur");
 
        // Poste.hasMany(Machine, {foreignKey: "id_poste"})
         Machine.belongsTo(Poste, {foreignKey: "id_poste"});
